@@ -339,7 +339,6 @@ def findFriendPointPosition():
         #TODO make this a func 
         friendYaw = (360 - compassYaw + directionBearingFriend)%360
         #TODO make this local
-        global led_degree_ratio
         led_index = int(led_degree_ratio * friendYaw)
         #TODO change name offset for something else
         global offset
