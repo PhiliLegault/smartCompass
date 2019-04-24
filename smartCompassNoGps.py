@@ -261,36 +261,35 @@ def drawDestinationArrow():
         global destinationYaw
         #TODO compassYaw to calibratedCompassYaw or other name 
         destinationYaw=(360 - calibratedCompassYaw + directionBearingDest)%360
-        #TODO change to draw friend point
         #TODO dont save offset globally 
-        findFriendPointPosition()
+        friendPixelPosition = findFriendPointPosition()
 
 
         #TODO make this 2 functions
         if (compassRoll <= 45 or compassRoll >= 315) and (compassPitch <= 45 or compassPitch >= 315):
                 if destinationYaw <= 45:
-                        arrow_thin_north[offset] = friendPoint
+                        arrow_thin_north[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_north)
                 elif destinationYaw < 90:
-                        arrow_thin_corner_NE[offset] = friendPoint
+                        arrow_thin_corner_NE[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_NE)
                 elif destinationYaw < 135:
-                        arrow_thin_east[offset] = friendPoint
+                        arrow_thin_east[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_east)
                 elif destinationYaw < 180:
-                        arrow_thin_corner_SE[offset] = friendPoint
+                        arrow_thin_corner_SE[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_SE)
                 elif destinationYaw < 225:
-                        arrow_thin_south[offset] = friendPoint
+                        arrow_thin_south[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_south)
                 elif destinationYaw < 270:
-                        arrow_thin_corner_SW[offset] = friendPoint
+                        arrow_thin_corner_SW[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_SW)
                 elif destinationYaw < 315:
-                        arrow_thin_west[offset] = friendPoint
+                        arrow_thin_west[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_west)
                 else:
-                        arrow_thin_corner_NW[offset] = friendPoint
+                        arrow_thin_corner_NW[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_NW)
 
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch <= 45 or compassPitch >= 315):
@@ -341,8 +340,8 @@ def findFriendPointPosition():
         #TODO make this local
         led_index = int(led_degree_ratio * friendYaw)
         #TODO change name offset for something else
-        global offset
-        offset = led_loop[led_index - 1]
+        friendPixelPosition = led_loop[led_index - 1]
+        return friendPixelPosition
 
 
 def sendCoordinateData():
