@@ -119,125 +119,112 @@ def redefine_arrow_color(distanceArrowColor):
         #color of points
         B = (0, 0, 255)
         R = (255, 0, 0)       
-        global arrow_thin_north
-        arrow_thin_north = [
-        B, B, B, W, W, B, B, B,
-        B, B, W, W, W, W, B, B,
-        B, W, W, W, W, W, W, B,
-        W, W, B, W, W, B, W, W,
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B                
-        ]
+        
+        directionalArrows = {
+                "arrow_thin_north" : [
+                B, B, B, W, W, B, B, B,
+                B, B, W, W, W, W, B, B,
+                B, W, W, W, W, W, W, B,
+                W, W, B, W, W, B, W, W,
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B                
+                ],
+                "arrow_thin_east" : [
+                B, B, B, B, W, B, B, B,
+                B, B, B, B, W, W, B, B,
+                B, B, B, B, B, W, W, B,
+                W, W, W, W, W, W, W, W,
+                W, W, W, W, W, W, W, W,
+                B, B, B, B, B, W, W, B,
+                B, B, B, B, W, W, B, B,
+                B, B, B, B, W, B, B, B                
+                ],
+                "arrow_thin_south" : [
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B,
+                B, B, B, W, W, B, B, B,
+                W, W, B, W, W, B, W, W,
+                B, W, W, W, W, W, W, B,
+                B, B, W, W, W, W, B, B,
+                B, B, B, W, W, B, B, B                
+                ],
+                "arrow_thin_west" : [
+                B, B, B, W, B, B, B, B,
+                B, B, W, W, B, B, B, B,
+                B, W, W, B, B, B, B, B,
+                W, W, W, W, W, W, W, W,
+                W, W, W, W, W, W, W, W,
+                B, W, W, B, B, B, B, B,
+                B, B, W, W, B, B, B, B,
+                B, B, B, W, B, B, B, B                
+                ],
+                "arrow_thin_corner_NE" : [
+                B, B, B, W, W, W, W, W,
+                B, B, B, B, B, W, W, W,
+                B, B, B, B, W, W, W, W,
+                B, B, B, W, W, W, B, W,
+                B, B, W, W, W, B, B, W,
+                B, W, W, W, B, B, B, B,
+                W, W, W, B, B, B, B, B,
+                W, W, B, B, B, B, B, B
+                ],
+                "arrow_thin_corner_SE" : [
+                W, W, B, B, B, B, B, B,
+                W, W, W, B, B, B, B, B,
+                B, W, W, W, B, B, B, B,
+                B, B, W, W, W, B, B, W,
+                B, B, B, W, W, W, B, W,
+                B, B, B, B, W, W, W, W,
+                B, B, B, B, B, W, W, W,
+                B, B, B, W, W, W, W, W
+                ],
+                "arrow_thin_corner_SW" : [
+                B, B, B, B, B, B, W, W,
+                B, B, B, B, B, W, W, W,
+                B, B, B, B, W, W, W, B,
+                W, B, B, W, W, W, B, B,
+                W, B, W, W, W, B, B, B,
+                W, W, W, W, B, B, B, B,
+                W, W, W, B, B, B, B, B,
+                W, W, W, W, W, B, B, B
+                ],
+                "arrow_thin_corner_NW" : [
+                W, W, W, W, W, B, B, B,
+                W, W, W, B, B, B, B, B,
+                W, W, W, W, B, B, B, B,
+                W, B, W, W, W, B, B, B,
+                W, B, B, W, W, W, B, B,
+                B, B, B, B, W, W, W, B,
+                B, B, B, B, B, W, W, W,
+                B, B, B, B, B, B, W, W
+                ],
+                "arrow_bold" : [
+                R, R, R, W, W, R, R, R,
+                R, R, W, W, W, W, R, R,
+                R, W, W, W, W, W, W, R,
+                W, W, W, W, W, W, W, W,
+                R, R, W, W, W, W, R, R,
+                R, R, W, W, W, W, R, R,
+                R, R, W, W, W, W, R, R,
+                R, R, W, W, W, W, R, R
+                ],
+                "arrow_bold_quasi" : [
+                W, W, W, W, W, W, W, W,
+                R, W, W, W, W, W, W, W,
+                R, R, W, W, W, W, W, W,
+                R, W, W, W, W, W, W, W,
+                W, W, W, W, W, W, W, W,
+                W, W, W, W, W, W, W, W,
+                W, W, W, W, W, R, W, W,
+                R, W, W, W, R, R, R, W
+                ]
+        }
+        return directionalArrows
 
-        global arrow_thin_east
-        arrow_thin_east = [
-        B, B, B, B, W, B, B, B,
-        B, B, B, B, W, W, B, B,
-        B, B, B, B, B, W, W, B,
-        W, W, W, W, W, W, W, W,
-        W, W, W, W, W, W, W, W,
-        B, B, B, B, B, W, W, B,
-        B, B, B, B, W, W, B, B,
-        B, B, B, B, W, B, B, B                
-        ]
 
-        global arrow_thin_south
-        arrow_thin_south = [
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B,
-        B, B, B, W, W, B, B, B,
-        W, W, B, W, W, B, W, W,
-        B, W, W, W, W, W, W, B,
-        B, B, W, W, W, W, B, B,
-        B, B, B, W, W, B, B, B                
-        ]
-
-
-        global arrow_thin_west
-        arrow_thin_west = [
-        B, B, B, W, B, B, B, B,
-        B, B, W, W, B, B, B, B,
-        B, W, W, B, B, B, B, B,
-        W, W, W, W, W, W, W, W,
-        W, W, W, W, W, W, W, W,
-        B, W, W, B, B, B, B, B,
-        B, B, W, W, B, B, B, B,
-        B, B, B, W, B, B, B, B                
-        ]
-
-        global arrow_thin_corner_NE
-        arrow_thin_corner_NE = [
-        B, B, B, W, W, W, W, W,
-        B, B, B, B, B, W, W, W,
-        B, B, B, B, W, W, W, W,
-        B, B, B, W, W, W, B, W,
-        B, B, W, W, W, B, B, W,
-        B, W, W, W, B, B, B, B,
-        W, W, W, B, B, B, B, B,
-        W, W, B, B, B, B, B, B
-        ]
-
-        global arrow_thin_corner_SE
-        arrow_thin_corner_SE = [
-        W, W, B, B, B, B, B, B,
-        W, W, W, B, B, B, B, B,
-        B, W, W, W, B, B, B, B,
-        B, B, W, W, W, B, B, W,
-        B, B, B, W, W, W, B, W,
-        B, B, B, B, W, W, W, W,
-        B, B, B, B, B, W, W, W,
-        B, B, B, W, W, W, W, W
-        ]
-
-        global arrow_thin_corner_SW
-        arrow_thin_corner_SW = [
-        B, B, B, B, B, B, W, W,
-        B, B, B, B, B, W, W, W,
-        B, B, B, B, W, W, W, B,
-        W, B, B, W, W, W, B, B,
-        W, B, W, W, W, B, B, B,
-        W, W, W, W, B, B, B, B,
-        W, W, W, B, B, B, B, B,
-        W, W, W, W, W, B, B, B
-        ]
-
-        global arrow_thin_corner_NW
-        arrow_thin_corner_NW = [
-        W, W, W, W, W, B, B, B,
-        W, W, W, B, B, B, B, B,
-        W, W, W, W, B, B, B, B,
-        W, B, W, W, W, B, B, B,
-        W, B, B, W, W, W, B, B,
-        B, B, B, B, W, W, W, B,
-        B, B, B, B, B, W, W, W,
-        B, B, B, B, B, B, W, W
-        ]
-
-        global arrow_bold
-        arrow_bold = [
-        R, R, R, W, W, R, R, R,
-        R, R, W, W, W, W, R, R,
-        R, W, W, W, W, W, W, R,
-        W, W, W, W, W, W, W, W,
-        R, R, W, W, W, W, R, R,
-        R, R, W, W, W, W, R, R,
-        R, R, W, W, W, W, R, R,
-        R, R, W, W, W, W, R, R
-        ]
-        global arrow_bold_quasi
-        arrow_bold_quasi = [
-        W, W, W, W, W, W, W, W,
-        R, W, W, W, W, W, W, W,
-        R, R, W, W, W, W, W, W,
-        R, W, W, W, W, W, W, W,
-        W, W, W, W, W, W, W, W,
-        W, W, W, W, W, W, W, W,
-        W, W, W, W, W, R, W, W,
-        R, W, W, W, R, R, R, W
-        ]
 
 def drawDestinationArrow():
         #changing color
@@ -256,7 +243,7 @@ def drawDestinationArrow():
                 arrowColor = (255, 0, 0)
 
         #TODO pass in W as var
-        redefine_arrow_color(arrowColor)
+        directionalArrows = redefine_arrow_color(arrowColor)
         
         global destinationYaw
         #TODO compassYaw to calibratedCompassYaw or other name 
@@ -268,31 +255,42 @@ def drawDestinationArrow():
         #TODO make this 2 functions
         if (compassRoll <= 45 or compassRoll >= 315) and (compassPitch <= 45 or compassPitch >= 315):
                 if destinationYaw <= 45:
+                        arrow_thin_north = directionalArrows["arrow_thin_north"]
                         arrow_thin_north[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_north)
                 elif destinationYaw < 90:
+                        arrow_thin_corner_NE = directionalArrows["arrow_thin_corner_NE"]
                         arrow_thin_corner_NE[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_NE)
                 elif destinationYaw < 135:
+                        arrow_thin_east = directionalArrows["arrow_thin_east"]
                         arrow_thin_east[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_east)
                 elif destinationYaw < 180:
+                        arrow_thin_corner_SE = directionalArrows["arrow_thin_corner_SE"]
                         arrow_thin_corner_SE[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_SE)
                 elif destinationYaw < 225:
+                        arrow_thin_south = directionalArrows["arrow_thin_south"]
                         arrow_thin_south[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_south)
                 elif destinationYaw < 270:
+                        arrow_thin_corner_SW = directionalArrows["arrow_thin_corner_SW"]
                         arrow_thin_corner_SW[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_SW)
                 elif destinationYaw < 315:
+                        arrow_thin_west = directionalArrows["arrow_thin_west"]
                         arrow_thin_west[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_west)
                 else:
+                        arrow_thin_corner_NW = directionalArrows["arrow_thin_corner_NW"]
                         arrow_thin_corner_NW[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_NW)
 
+        arrow_bold = directionalArrows["arrow_bold"]
+        arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch <= 45 or compassPitch >= 315):
+                arrow_bold = 
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(0)
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch > 45 and compassPitch <= 67.5):
