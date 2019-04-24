@@ -49,7 +49,7 @@ directionBearingDest = 0
 distanceToTravelDest = 0
 directionBearingFriend = 0
 distanceToTravelFriend = 0
-compassYaw = 0
+calibratedCompassYaw = 0
 compassRoll = 0
 compassPitch = 0
 lastMsg = ""
@@ -67,7 +67,7 @@ def dataLogger():
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
-                print("compass value %d" % (compassYaw))
+                print("compass value %d" % (calibratedCompassYaw))
                 print("direction bearing destination: %d" % (directionBearingDest))
                 print("direction bearing friend: %d" % (directionBearingFriend))
                 print("distance to travel destination: %d" % (distanceToTravelDest))
@@ -104,10 +104,10 @@ def compassSensorData():
         while True:
                 sense.set_imu_config(False, True, True) # compass disabled
                 orientation = sense.get_orientation()
-                global compassYaw
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
                 # compensate for faulty sensehat implementation 
-                compassYaw = (compassYaw + compassOffset) % 360
+                global calibratedCompassYaw
+                calibratedCompassYaw = (compassYaw + compassOffset) % 360
                 global compassRoll
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
@@ -260,7 +260,7 @@ def drawDestinationArrow():
         
         global destinationYaw
         #TODO compassYaw to calibratedCompassYaw or other name 
-        destinationYaw=(360 - compassYaw + directionBearingDest)%360
+        destinationYaw=(360 - calibratedCompassYaw + directionBearingDest)%360
         #TODO change to draw friend point
         #TODO dont save offset globally 
         findFriendPointPosition()
@@ -337,7 +337,7 @@ def findFriendPointPosition():
         led_degree_ratio = len(led_loop) / 360.0
         global friendYaw
         #TODO make this a func 
-        friendYaw = (360 - compassYaw + directionBearingFriend)%360
+        friendYaw = (360 - calibratedCompassYaw + directionBearingFriend)%360
         #TODO make this local
         led_index = int(led_degree_ratio * friendYaw)
         #TODO change name offset for something else
