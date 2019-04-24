@@ -42,7 +42,6 @@ sense.get_compass()
 
 
 
-
 #global variables for sensor data
 destinationYaw = 0 
 friendYaw = 0
@@ -59,17 +58,6 @@ offset = 0
 currentCoordinate = (0, 0)
 destinationCoordinate = (0, 0)
 friendCoordinate = (0, 0)
-
-
-#sensehat led defintions  
-B = (0, 0, 255)
-R = (255, 0, 0)
-friendPoint = (255, 255, 255)
-led_loop = [4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 62, 61, 60, 59, 58, 57, 56, 48, 40, 32, 24, 16, 8, 0, 1, 2, 3]
-prev_x = 0
-prev_y = 0
-led_degree_ratio = len(led_loop) / 360.0
-
 
 
 
@@ -126,7 +114,11 @@ def compassSensorData():
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
 
  
-def redefine_arrow_color():        
+def redefine_arrow_color(distanceArrowColor): 
+        W = distanceArrowColor 
+        #color of points
+        B = (0, 0, 255)
+        R = (255, 0, 0)       
         global arrow_thin_north
         arrow_thin_north = [
         B, B, B, W, W, B, B, B,
@@ -248,23 +240,33 @@ def redefine_arrow_color():
         ]
 
 def drawDestinationArrow():
-        global W
+        #changing color
+
+        #sensehat led defintions  
+        #TODO bring this all to local scope
+        friendPoint = (255, 255, 255)
+        #array of positions of outer loop of sensehat leds starting at north
+
+        #define arrow color based on distance
         if distanceToTravelDest < 5000:
-                W = (0, 255, 0)
+                arrowColor = (0, 255, 0)
         elif distanceToTravelDest < 10000:
-                W = (255, 255, 0)
+                arrowColor = (255, 255, 0)
         else:
-                W = (255, 0, 0)
+                arrowColor = (255, 0, 0)
 
-
-        redefine_arrow_color()
+        #TODO pass in W as var
+        redefine_arrow_color(arrowColor)
+        
         global destinationYaw
+        #TODO compassYaw to calibratedCompassYaw or other name 
         destinationYaw=(360 - compassYaw + directionBearingDest)%360
+        #TODO change to draw friend point
+        #TODO dont save offset globally 
+        findFriendPointPosition()
 
-        drawFriendArrow()
 
-
-
+        #TODO make this 2 functions
         if (compassRoll <= 45 or compassRoll >= 315) and (compassPitch <= 45 or compassPitch >= 315):
                 if destinationYaw <= 45:
                         arrow_thin_north[offset] = friendPoint
@@ -330,12 +332,16 @@ def drawDestinationArrow():
         else:
                 sense.clear()
         
-def drawFriendArrow():
+def findFriendPointPosition():
+        led_loop = [4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 62, 61, 60, 59, 58, 57, 56, 48, 40, 32, 24, 16, 8, 0, 1, 2, 3]
+        led_degree_ratio = len(led_loop) / 360.0
         global friendYaw
+        #TODO make this a func 
         friendYaw = (360 - compassYaw + directionBearingFriend)%360
+        #TODO make this local
         global led_degree_ratio
         led_index = int(led_degree_ratio * friendYaw)
-        global led_loop
+        #TODO change name offset for something else
         global offset
         offset = led_loop[led_index - 1]
 
