@@ -287,43 +287,52 @@ def drawDestinationArrow():
                         arrow_thin_corner_NW[friendPixelPosition] = friendPoint
                         sense.set_pixels(arrow_thin_corner_NW)
 
-        arrow_bold = directionalArrows["arrow_bold"]
-        arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch <= 45 or compassPitch >= 315):
-                arrow_bold = 
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(0)
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch > 45 and compassPitch <= 67.5):
+                arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
                 sense.set_pixels(arrow_bold_quasi)
                 sense.set_rotation(0)
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch > 67.5 and compassPitch <= 90):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(90)
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch < 315 and compassPitch >= 292.5):
+                arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
                 sense.set_pixels(arrow_bold_quasi)
                 sense.set_rotation(270)
         elif (compassRoll > 45 and compassRoll <= 180) and (compassPitch < 292.5 and compassPitch >= 270):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(270)
         elif (compassRoll > 180 and compassRoll < 315) and (compassPitch <= 45 or compassPitch >= 315):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(180)
         elif (compassRoll > 180 and compassRoll < 315) and (compassPitch > 45 and compassPitch <= 67.5):
+                arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
                 sense.set_pixels(arrow_bold_quasi)
                 sense.set_rotation(90)
         elif (compassRoll > 180 and compassRoll < 315) and (compassPitch > 67.5 and compassPitch <= 90):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(90)
         elif (compassRoll > 180 and compassRoll < 315) and (compassPitch < 315 and compassPitch >= 292.5):
+                arrow_bold_quasi = directionalArrows["arrow_bold_quasi"]
                 sense.set_pixels(arrow_bold_quasi)
                 sense.set_rotation(180)
         elif (compassRoll > 180 and compassRoll < 315) and (compassPitch < 292.5 and compassPitch >= 270):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(270)
         elif (compassPitch <= 90) and (compassRoll <= 45 or compassRoll >= 315):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(90)
         elif (compassPitch >= 270) and (compassRoll <= 45 or compassRoll >= 315):
+                arrow_bold = directionalArrows["arrow_bold"]
                 sense.set_pixels(arrow_bold)
                 sense.set_rotation(270)
         else:
