@@ -29,8 +29,8 @@ carfourLon = -73.752392
 bizardLat = 45.487648
 bizardLon = -73.887209
 
-ericssonDestLat = 45.491778 
-ericssonDestLon = -73.727525
+ericssonDestLat = 45.491565
+ericssonDestLon = -73.727393
 
 
 
