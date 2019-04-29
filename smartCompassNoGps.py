@@ -368,7 +368,7 @@ def sendCoordinateData():
                 except RuntimeError:
                         print("LoRA disconnected plz reconnect.")
                 else:
-                        print("sent message!")    
+                        print("-- LoRA sent message! = " + coorStr)    
 
 
 def receiveCoordinateData():
