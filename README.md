@@ -99,7 +99,7 @@ These points will be where you will be placing the two compass devices.
 
 16 female to female jumper wires 
 
-<img src="./images/jumpers.jpg" width="150" />
+<img src="./images/Jumpers.jpg" width="150" />
 
 ***
 
