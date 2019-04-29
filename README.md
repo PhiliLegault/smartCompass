@@ -13,9 +13,9 @@ This project aims to give a simple reliable solution to outdoor navigation for g
 
 The code used for the demos can be found [here](https://gerrit.ericsson.se/#/admin/projects/MontrealGarage/smartCompass)
 
-### With GPS
+### GPS Demo
 #### Description
-For running the demo with GPS the goal is to set one of the devices with the current location of ericsson, this device stays inside the garage and is the one observed. The second device is taken outside around the building at different positions. This will result in the point on the observed compass changing position. The data will also be displayed on the web interface which shows the gps coordinates of the second device, its distance and bearing from the first devices coordinate points.
+For running the demo with GPS the goal is to set one of the devices with the current location of ericsson, this device stays inside the garage and is the one observed. The second device is taken outside around the building at different positions. This will result in the point on the observed compass changing position. The data will also be displayed on the web interface which shows the gps coordinates of the second device, its distance and bearing from the first devices coordinate points. This is to demonstrate to capability to show how you could find another person with the device.
 
 #### Operation
 
@@ -27,16 +27,41 @@ To operate this demo you will need two devices setup with the [neccessary materi
 4. When the program begins you will be asked to set the compass pointing north and press enter. When standing in the Ericsson Garage north is the window. 
 5. The program will then prompt you for your destination point you will be given a few preprogrammed options.
 6. This is all the necessary setup for the first device. The device will now be receiving GPS data and sending it out using the LoRa radio. (there have been some issues with the gps being a few meters off) 
+7. Place the device somewhere outside in a container. The device can be placed anywhere within around 1km if there are not too many obstuctions. The device will now transmit its current coordinate location using lora 
+8. To setup the second device repeat the steps `1-4` although instead of `smartCompassGps.py` run `smartCompassNoGps.py` with the comand `python3 smartCompassNoGps.py`. 
+9. After setting the north position you will be prompted for a current position, for this use the position of ericsson. For the destination you can choose any value. 
+10. The program should now be running. You should see an arrow pointing towards the destination that you choose in the prompt aswell as a white point which is directed at the position of the outdoor device. 
 
 
 
 <br>
 
-### Without GPS
+### No GPS Demo
 #### Description 
 For running the demo without the GPS both the devices are placed on a large map of montreal. The devices are given static positions and placed on the map at the position specified. A current coordinate and destination coordinate is chossen for each device. Once the coordinates have been set the sense-hat led screens will display an arrow which points to the choosen destination. The arrow's color will depend on the distance to the destination. The two devices will also communicate their current positions to each other using the LoRa radio. Once the device has received the position of an other device it will draw a white point which points to the other device on the map. 
 
 #### Operation
+
+To operate this demo you will need two devices setup with the [neccessary materials](#Materials). If the demo has been taken appart the [setup](#Setup) and [wiring](#wiring) sections will help you assemble to materials.
+
+You will also need a printed map of montreal with the following points displayed:
+- Dorval Coordinate: 45.432023, -73.740622
+- Mont Royal Coodinate: 45.503689, -73.602551
+- Carfour Laval Coordinate: 45.570101, -73.602551
+- Bizard Island Coordinate: 45.487648, -73.887209
+- Ericsson Coordinate:  45.491565, -73.727393
+
+These points will be where you will be placing the two compass devices.
+
+1. Power the compass attached with a GPS module, make sure a keyboard and monitor is connected to Raspberry Pi.
+2. Navigate to the smart compass directory (~/Documents/smartCompass). In this directory you will find the python program `smartCompassNoGps.py`
+3. Start the program using python3 with the command `python3 smartCompassNoGps.py`.
+4. When the program begins you will be asked to set the compass pointing north and press enter. When standing in the Ericsson Garage north is the window. Make sure you start both devices facing the same direction
+5. For each device choose a current position and place the device on the map at the specified position. 
+6. Choose the destination for each device from the prompted options
+7. You should now see each device pointing towards their destination on the map of montreal. You should also see a white point which shows the two devices pointing at each other. 
+8. You can now restart the first device from a different location and destination to see the friend point on the second device change to match the new coordinates of the first device. 
+
 
 ***
 <br>
