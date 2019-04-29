@@ -147,9 +147,8 @@ def getDecimalCoordinate(coordinate):
 def gpsSensorData():
         while True:
                 time.sleep(1)
-
-                line = gps.readline()
                 try: 
+                        line = gps.readline()
                         line = str(line, "utf-8")
                 except:
                         print("Something blew up. Retrying gps fix later. ")
@@ -407,7 +406,12 @@ def receiveCoordinateData():
                         print("- Waiting for PKT -")
                 else:
                         prev_packet = packet
-                        packet_text = str(prev_packet, "utf-8")
+                        try: 
+                                packet_text = str(prev_packet, "utf-8")
+                        except UnicodeDecodeError:
+                                print("Received garbage data on LoRA. Trying again later.")
+                                continue
+                        
                         global lastMsg
                         lastMsg = packet_text
                         sentCoor = lastMsg
@@ -419,10 +423,11 @@ def receiveCoordinateData():
                                 sentLon = float(sentCoor[1])
                         except ValueError:
                                 print("Received garbage data on LoRA. Trying again later.")
-                        else:
-                                global friendCoordinate
-                                friendCoordinate = (sentLat, sentLon)
-                                print(packet_text)
+                                continue
+                        
+                        global friendCoordinate
+                        friendCoordinate = (sentLat, sentLon)
+                        print(packet_text)
                 time.sleep(1)
 
 
