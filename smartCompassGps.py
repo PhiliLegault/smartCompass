@@ -130,7 +130,7 @@ def compassSensorData():
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
                 
-                print("compass Yaw calibrated : " + compassYaw)
+                print("compass Yaw calibrated : " + str(compassYaw))
 
 
 #function to convert lat and long coordinates to decimal formatting 

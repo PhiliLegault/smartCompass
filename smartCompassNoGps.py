@@ -116,7 +116,7 @@ def compassSensorData():
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
 
-                print("compass Yaw calibrated : " + calibratedCompassYaw)
+                print("compass Yaw calibrated : " + str(calibratedCompassYaw))
 
  
 def redefine_arrow_color(distanceArrowColor): 
