@@ -103,9 +103,9 @@ def calculate_compass_bearing(destCoor):
 def compassSensorData():
         while True:
                 # Throttle.
-                time.sleep(5)
+                time.sleep(1)
 
-                sense.set_imu_config(True, True, True) # compass disabled
+                sense.set_imu_config(False, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
                 # compensate for faulty sensehat implementation 
@@ -358,8 +358,7 @@ def findFriendPointPosition():
 
 def sendCoordinateData():
         while True:
-                # Throttle to < 1 Hz for operation frequency.
-                time.sleep(1)
+                # Writing to the LoRA is slow so no throttling needed.
 
                 coorStr = str(currentCoordinate)
                 test2 = bytes(coorStr,"utf-8")
