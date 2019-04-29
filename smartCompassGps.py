@@ -117,9 +117,9 @@ def calculate_compass_bearing(destCoor):
 def compassSensorData():
         while True:
                 #Throttle 
-                time.sleep(1)
+                time.sleep(5)
 
-                sense.set_imu_config(False, True, True) # compass disabled
+                sense.set_imu_config(False, False, False) # compass disabled
                 orientation = sense.get_orientation()
                 global compassYaw
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
@@ -407,7 +407,7 @@ def sendCoordinateData():
 def receiveCoordinateData():
         while True:
                 packet = None
-                packet = rfm9x.receive(timeout=3)
+                packet = rfm9x.receive(timeout=5)
                 if packet is None:
                         print("- Waiting for PKT -")
                 else:
@@ -433,8 +433,7 @@ def receiveCoordinateData():
                         
                         global friendCoordinate
                         friendCoordinate = (sentLat, sentLon)
-                        print(packet_text)
-                time.sleep(1)
+                        print("- PKT recevied: " + packet_text + " -")
 
 
 def calibrateCompassNorthFace():
