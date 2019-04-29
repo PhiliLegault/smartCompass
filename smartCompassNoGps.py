@@ -353,11 +353,17 @@ def findFriendPointPosition():
 
 def sendCoordinateData():
         while True:
+                # Throttle to < 1 Hz for operation frequency.
+                time.sleep(1)
+
                 coorStr = str(currentCoordinate)
                 test2 = bytes(coorStr,"utf-8")
-                rfm9x.send(test2)
-                print("sent message!")      
-                time.sleep(1)
+                try:
+                        rfm9x.send(test2)
+                except RuntimeError:
+                        print("LoRA disconnected plz reconnect.")
+                else:
+                        print("sent message!")    
 
 
 def receiveCoordinateData():
@@ -404,7 +410,8 @@ try:
     print("RFM9x detected")
 except RuntimeError:
     # Thrown on version mismatch
-    print("RFM9x: ERROR")
+    print("RFM9x: ERROR. LoRA is probably not connected. Exiting")
+    sys.exit(1)
 
 rfm9x.tx_power = 23
 prev_packet = None

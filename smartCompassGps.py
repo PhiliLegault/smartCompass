@@ -146,18 +146,26 @@ def getDecimalCoordinate(coordinate):
 #convert to decimal value
 def gpsSensorData():
         while True:
+                time.sleep(1)
+
                 line = gps.readline()
-                line = str(line, "utf-8")
-                data = line.split(",")
-                if data[0] == "$GPRMC":
-                        if data[2] == "A":
-                                decimalLat = getDecimalCoordinate(data[3])
-                                #change to negative because value is west
-                                decimalLon = (getDecimalCoordinate(data[5])) * -1
-                                global currentCoordinate
-                                currentCoordinate = (decimalLat, decimalLon)
-                        else:
-                                print("no gps fix :(")
+                try: 
+                        line = str(line, "utf-8")
+                except:
+                        print("Something blew up. Retrying gps fix later. ")
+                else:
+                        data = line.split(",")
+                        if data[0] == "$GPRMC":
+                                if data[2] == "A":
+                                        decimalLat = getDecimalCoordinate(data[3])
+                                        #change to negative because value is west
+                                        decimalLon = (getDecimalCoordinate(data[5])) * -1
+                                        global currentCoordinate
+                                        currentCoordinate = (decimalLat, decimalLon)
+                                else:
+                                        print("no gps fix :(")
+                                
+                                
 
 
 # used to redefine arrow colors based on distance
@@ -377,11 +385,18 @@ def drawFriendArrow():
 
 def sendCoordinateData():
         while True:
+                # Throttle to < 1 Hz for operation frequency.
+                time.sleep(1)
+
                 coorStr = str(currentCoordinate)
                 test2 = bytes(coorStr,"utf-8")
-                rfm9x.send(test2)
-                print("sent message!")      
-                time.sleep(1)
+                try:
+                        rfm9x.send(test2)
+                except RuntimeError:
+                        print("LoRA disconnected plz reconnect.")
+                else:
+                        print("sent message!")      
+                        
 
 
 def receiveCoordinateData():
