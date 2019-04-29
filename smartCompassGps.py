@@ -77,7 +77,7 @@ led_degree_ratio = len(led_loop) / 360.0
 
 def dataLogger():
         while True:
-                time.sleep(10)
+                time.sleep(30)
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
@@ -116,6 +116,9 @@ def calculate_compass_bearing(destCoor):
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
         while True:
+                #Throttle 
+                time.sleep(1)
+
                 sense.set_imu_config(False, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 global compassYaw
@@ -126,6 +129,8 @@ def compassSensorData():
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
+                
+                print("compass Yaw calibrated : " + compassYaw)
 
 
 #function to convert lat and long coordinates to decimal formatting 
@@ -150,7 +155,8 @@ def gpsSensorData():
                 try: 
                         line = gps.readline()
                         line = str(line, "utf-8")
-                except:
+                except Exception as e:
+                        print(e)
                         print("Something blew up. Retrying gps fix later. ")
                 else:
                         data = line.split(",")

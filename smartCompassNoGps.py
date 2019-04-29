@@ -63,7 +63,7 @@ friendCoordinate = (0, 0)
 
 def dataLogger():
         while True:
-                time.sleep(10)
+                time.sleep(30)
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
@@ -102,6 +102,9 @@ def calculate_compass_bearing(destCoor):
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
         while True:
+                # Throttle.
+                time.sleep(1)
+
                 sense.set_imu_config(False, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
@@ -112,6 +115,8 @@ def compassSensorData():
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
+
+                print("compass Yaw calibrated : " + calibratedCompassYaw)
 
  
 def redefine_arrow_color(distanceArrowColor): 
@@ -368,6 +373,8 @@ def sendCoordinateData():
 
 def receiveCoordinateData():
         while True:
+                time.sleep(1)
+
                 packet = None
                 packet = rfm9x.receive(timeout=3)
                 if packet is None:
@@ -396,7 +403,7 @@ def receiveCoordinateData():
                         global friendCoordinate
                         friendCoordinate = (sentLat, sentLon)
                         print(packet_text)
-                time.sleep(1)
+                
 
 
 def calibrateCompassNorthFace():
