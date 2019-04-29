@@ -63,7 +63,7 @@ friendCoordinate = (0, 0)
 
 def dataLogger():
         while True:
-                time.sleep(3)
+                time.sleep(10)
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
@@ -381,11 +381,15 @@ def receiveCoordinateData():
                         sentCoor = sentCoor.replace("(", "")
                         sentCoor = sentCoor.replace(")", "")
                         sentCoor = sentCoor.split(",")
-                        sentLat = float(sentCoor[0])
-                        sentLon = float(sentCoor[1])
-                        global friendCoordinate
-                        friendCoordinate = (sentLat, sentLon)
-                        print(packet_text)
+                        try:
+                                sentLat = float(sentCoor[0])
+                                sentLon = float(sentCoor[1])
+                        except ValueError:
+                                print("Received garbage data on LoRA. Trying again later.")
+                        else:
+                                global friendCoordinate
+                                friendCoordinate = (sentLat, sentLon)
+                                print(packet_text)
                 time.sleep(1)
 
 
