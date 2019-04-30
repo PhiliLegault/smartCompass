@@ -40,8 +40,6 @@ sense.set_rotation(0)
 sense.clear()
 sense.get_orientation()
 
-#gps setup
-gps = serial.Serial("/dev/ttyUSB0", baudrate = 9600)
 
 
 
@@ -153,8 +151,12 @@ def getDecimalCoordinate(coordinate):
 #gather long and lat coordinates
 #convert to decimal value
 def gpsSensorData():
+        #gps setup
+        gps = serial.Serial("/dev/ttyUSB0", baudrate = 9600)
+        failureCount = 0
+
         while True:
-                time.sleep(1)
+                # No throttling needed here, this is relatively slow as it is. 
                 try: 
                         line = gps.readline()
                         line = str(line, "utf-8")
@@ -163,7 +165,7 @@ def gpsSensorData():
                         print("Something blew up. Retrying gps fix later. ")
                 else:
                         data = line.split(",")
-                        if data[0] == "$GPRMC":
+                        if "$GPRMC" in data[0]:
                                 if data[2] == "A":
                                         decimalLat = getDecimalCoordinate(data[3])
                                         #change to negative because value is west
@@ -172,6 +174,12 @@ def gpsSensorData():
                                         currentCoordinate = (decimalLat, decimalLon)
                                 else:
                                         print("no gps fix :(")
+                                        failureCount += 1
+                                        if(failureCount >= 10):
+                                                print("reseting gps")
+                                                gps.close()
+                                                gps.open()
+                                                failureCount = 0
                                 
                                 
 
