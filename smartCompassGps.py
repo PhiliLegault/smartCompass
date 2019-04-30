@@ -77,7 +77,12 @@ led_degree_ratio = len(led_loop) / 360.0
 
 def dataLogger():
         while True:
-                time.sleep(30)
+                time.sleep(10)
+                print("compass value %d" % (compassYaw))
+                time.sleep(10)
+                print("compass value %d" % (compassYaw))
+                time.sleep(10)
+                print("\n\n") 
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
