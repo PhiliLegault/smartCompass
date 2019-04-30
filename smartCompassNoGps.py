@@ -101,11 +101,12 @@ def calculate_compass_bearing(destCoor):
 
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
+        printThrottle = 0
         while True:
                 # Throttle.
-                time.sleep(1)
+                time.sleep(0.25)
 
-                sense.set_imu_config(False, True, True) # compass disabled
+                sense.set_imu_config(True, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
                 # compensate for faulty sensehat implementation 
@@ -115,8 +116,12 @@ def compassSensorData():
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
-
-                print("compass Yaw calibrated : " + str(calibratedCompassYaw))
+	
+                # debug 	
+                if(printThrottle == 0):	
+                        print("compass Yaw calibrated : " + str(calibratedCompassYaw))
+                printThrottle += 1
+                printThrottle %= 20 
 
  
 def redefine_arrow_color(distanceArrowColor): 
