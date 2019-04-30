@@ -38,7 +38,7 @@ ericssonDestLon = -73.727393
 sense = SenseHat()
 sense.set_rotation(0)
 sense.clear()
-sense.get_compass()
+sense.get_orientation()
 
 #gps setup
 gps = serial.Serial("/dev/ttyUSB0", baudrate = 9600)
@@ -117,15 +117,13 @@ def calculate_compass_bearing(destCoor):
 def compassSensorData():
         printThrottle = 0
         while True:
-                # Throttle.
-                time.sleep(0.25)
+                # No throtttling needed here
 
-                sense.set_imu_config(True, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 global compassYaw
-                compassYaw = round(float("{yaw}".format(**orientation)),1)
+                compassYawRaw = round(float("{yaw}".format(**orientation)),1)
                 # compensate for faulty sensehat implementation 
-                compassYaw = (compassYaw + compassOffset) % 360
+                compassYaw = (compassYawRaw + compassOffset) % 360
                 global compassRoll
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
@@ -443,6 +441,7 @@ def receiveCoordinateData():
 def calibrateCompassNorthFace():
         #Calibrate Compass by setting to north
         input("Place the compass facing north and press enter")
+        time.sleep(1)
         orientation = sense.get_orientation()
         compassInitValue = round(float("{yaw}".format(**orientation)),1)        
         global compassOffset
