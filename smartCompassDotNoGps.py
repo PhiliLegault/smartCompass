@@ -38,8 +38,7 @@ ericssonDestLon = -73.727393
 sense = SenseHat()
 sense.set_rotation(0)
 sense.clear()
-sense.get_compass()
-
+sense.get_orientation()
 
 
 #global variables for sensor data
@@ -60,7 +59,15 @@ friendCoordinate = (0, 0)
 
 def dataLogger():
         while True:
-                time.sleep(3)
+                time.sleep(10)
+                
+                print("compass value %d" % (calibratedCompassYaw))
+                time.sleep(10)
+                
+                print("compass value %d" % (calibratedCompassYaw))
+                time.sleep(10)
+
+                print("\n\n") 
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
@@ -99,7 +106,6 @@ def calculate_compass_bearing(destCoor):
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
         while True:
-                sense.set_imu_config(False, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
                 # compensate for faulty sensehat implementation 
@@ -184,37 +190,52 @@ def sendCoordinateData():
         while True:
                 coorStr = str(currentCoordinate)
                 test2 = bytes(coorStr,"utf-8")
-                rfm9x.send(test2)
-                print("sent message!")      
-                time.sleep(1)
+                try:
+                        rfm9x.send(test2)
+                except RuntimeError:
+                        print("LoRA disconnected plz reconnect.")
+                else:
+                        print("-- LoRA sent message! = " + coorStr)    
 
 
 def receiveCoordinateData():
         while True:
+                # No delay here, just keep listening with a long timeout. 
                 packet = None
-                packet = rfm9x.receive(timeout=3)
+                packet = rfm9x.receive(timeout=5)
                 if packet is None:
                         print("- Waiting for PKT -")
                 else:
                         prev_packet = packet
-                        packet_text = str(prev_packet, "utf-8")
+                        try: 
+                                packet_text = str(prev_packet, "utf-8")
+                        except UnicodeDecodeError:
+                                print("Received garbage data on LoRA. Trying again later.")
+                                continue
+
                         global lastMsg
                         lastMsg = packet_text
                         sentCoor = lastMsg
                         sentCoor = sentCoor.replace("(", "")
                         sentCoor = sentCoor.replace(")", "")
                         sentCoor = sentCoor.split(",")
-                        sentLat = float(sentCoor[0])
-                        sentLon = float(sentCoor[1])
+                        try:
+                                sentLat = float(sentCoor[0])
+                                sentLon = float(sentCoor[1])
+                        except ValueError:
+                                print("Received garbage data on LoRA. Trying again later.")
+                                continue
+                        
                         global friendCoordinate
                         friendCoordinate = (sentLat, sentLon)
-                        print(packet_text)
-                time.sleep(1)
+                        print("- PKT recevied: " + packet_text + " -")
+                
 
 
 def calibrateCompassNorthFace():
         #Calibrate Compass by setting to north
         input("Place the compass facing north and press enter")
+        time.sleep(1)
         orientation = sense.get_orientation()
         compassInitValue = round(float("{yaw}".format(**orientation)),1)        
         global compassOffset
@@ -233,7 +254,8 @@ try:
     print("RFM9x detected")
 except RuntimeError:
     # Thrown on version mismatch
-    print("RFM9x: ERROR")
+    print("RFM9x: ERROR. LoRA is probably not connected. Exiting")
+    sys.exit(1)
 
 rfm9x.tx_power = 23
 prev_packet = None

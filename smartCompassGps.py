@@ -78,10 +78,13 @@ led_degree_ratio = len(led_loop) / 360.0
 def dataLogger():
         while True:
                 time.sleep(10)
+                
                 print("compass value %d" % (compassYaw))
                 time.sleep(10)
+
                 print("compass value %d" % (compassYaw))
                 time.sleep(10)
+
                 print("\n\n") 
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
@@ -120,10 +123,8 @@ def calculate_compass_bearing(destCoor):
 
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
-        printThrottle = 0
         while True:
                 # No throtttling needed here
-
                 orientation = sense.get_orientation()
                 global compassYaw
                 compassYawRaw = round(float("{yaw}".format(**orientation)),1)
@@ -133,12 +134,6 @@ def compassSensorData():
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
-                
-                # debug 	
-                if(printThrottle == 0):	
-                        print("compass Yaw calibrated : " + str(compassYaw))
-                printThrottle += 1
-                printThrottle %= 20 
 
 
 #function to convert lat and long coordinates to decimal formatting 

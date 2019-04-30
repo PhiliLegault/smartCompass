@@ -62,7 +62,15 @@ friendCoordinate = (0, 0)
 
 def dataLogger():
         while True:
-                time.sleep(30)
+                time.sleep(10)
+                
+                print("compass value %d" % (calibratedCompassYaw))
+                time.sleep(10)
+                
+                print("compass value %d" % (calibratedCompassYaw))
+                time.sleep(10)
+
+                print("\n\n") 
                 print("current Coordinate: %s" % (currentCoordinate,))
                 print("destination Coordinate %s" % (destinationCoordinate,))
                 print("friend Coordinate %s" % (friendCoordinate,))
@@ -100,7 +108,6 @@ def calculate_compass_bearing(destCoor):
 
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
-        printThrottle = 0
         while True:
                 orientation = sense.get_orientation()
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
@@ -111,12 +118,6 @@ def compassSensorData():
                 compassRoll = round(float("{roll}".format(**orientation)),1)
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
-	
-                # debug 	
-                if(printThrottle == 0):	
-                        print("compass Yaw calibrated : " + str(calibratedCompassYaw))
-                printThrottle += 1
-                printThrottle %= 20 
 
  
 def redefine_arrow_color(distanceArrowColor): 
