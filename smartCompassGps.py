@@ -115,11 +115,12 @@ def calculate_compass_bearing(destCoor):
 
 #collect pitch, yaw and roll values from magnetometer 
 def compassSensorData():
+        printThrottle = 0
         while True:
-                #Throttle 
-                time.sleep(1)
+                # Throttle.
+                time.sleep(0.25)
 
-                sense.set_imu_config(False, True, True) # compass disabled
+                sense.set_imu_config(True, True, True) # compass disabled
                 orientation = sense.get_orientation()
                 global compassYaw
                 compassYaw = round(float("{yaw}".format(**orientation)),1)
@@ -130,7 +131,11 @@ def compassSensorData():
                 global compassPitch
                 compassPitch = round(float("{pitch}".format(**orientation)),1)
                 
-                print("compass Yaw calibrated : " + str(compassYaw))
+                # debug 	
+                if(printThrottle == 0):	
+                        print("compass Yaw calibrated : " + str(compassYaw))
+                printThrottle += 1
+                printThrottle %= 20 
 
 
 #function to convert lat and long coordinates to decimal formatting 
